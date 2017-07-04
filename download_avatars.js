@@ -1,5 +1,6 @@
 
 var request = require("request");
+var fs = require("fs");
 
 var requestOptions = {
   headers: {
@@ -30,3 +31,10 @@ function findAvatar(someJSON){
     console.log(contributor.avatar_url)
   })
 }
+
+function downloadImageByURL(url, filepath){
+  request.get(url)
+         .pipe(fs.createWriteStream(filepath));
+}
+
+downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/kvirani.jpg")
