@@ -10,6 +10,8 @@ var requestOptions = {
 
 console.log("Welcome to the GitHub Avatar Downloader!");
 
+// gets stream from string/url created by requestURL and logs the URL to stout
+// parses body into array of objects, letting us access its properties, ie. avatar_url
 function getRepoContributors(repoOwner, repoName, cb){
   var requestURL = 'https://'+ process.env.GITHUB_USER + ':' + process.env.GITHUB_TOKEN + '@api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors';
   console.log(requestURL);
@@ -19,22 +21,19 @@ function getRepoContributors(repoOwner, repoName, cb){
   })
 }
 
-// getRepoContributors("jquery", "jquery", function(err, result){
-//   console.log("Errors: ", err);
-//   console.log("Result: ", result);
-// });
-
-getRepoContributors("jquery", "jquery", findAvatar);
-
-function findAvatar(someJSON){
-  someJSON.forEach(function(contributor){
-    console.log(contributor.avatar_url)
-  })
-}
-
+// turns readable stream into writeable, to be able to save images to our created filepath
 function downloadImageByURL(url, filepath){
   request.get(url)
          .pipe(fs.createWriteStream(filepath));
 }
 
-downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/kvirani.jpg")
+// calls above function to download images to filepath created -> avatars/
+function findAvatar(someJSON){
+  someJSON.forEach(function(contributor){
+    downloadImageByURL(contributor.avatar_url, ("avatars/" + contributor.login + ".jpg"))
+  })
+}
+
+getRepoContributors("jquery", "jquery", findAvatar);
+
+
