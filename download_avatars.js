@@ -13,6 +13,7 @@ console.log("Welcome to the GitHub Avatar Downloader!");
 // gets stream from string/url created by requestURL and logs the URL to stout
 // parses body into array of objects, letting us access its properties, ie. avatar_url
 function getRepoContributors(repoOwner, repoName, cb){
+  // will let user know if they have passed in arguments incorrectly, and which ones
   if(repoOwner === "undefined") {
     console.log("Name of Repo Owner Required.");
     return;
