@@ -13,6 +13,14 @@ console.log("Welcome to the GitHub Avatar Downloader!");
 // gets stream from string/url created by requestURL and logs the URL to stout
 // parses body into array of objects, letting us access its properties, ie. avatar_url
 function getRepoContributors(repoOwner, repoName, cb){
+  if(repoOwner === "undefined") {
+    console.log("Name of Repo Owner Required.");
+    return;
+  }
+  if(repoName === "undefined"){
+    console.log("Repo Name Required.");
+    return;
+  }
   var requestURL = 'https://'+ process.env.GITHUB_USER + ':' + process.env.GITHUB_TOKEN + '@api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors';
   console.log(requestURL);
   request.get(requestURL, requestOptions, function(error, response, body){
