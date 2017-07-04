@@ -1,4 +1,4 @@
-
+// required modules
 var request = require("request");
 var fs = require("fs");
 
@@ -34,6 +34,7 @@ function findAvatar(someJSON){
   })
 }
 
-getRepoContributors("jquery", "jquery", findAvatar);
+//arguments for repoOwner and repoName now passed in from command line
+getRepoContributors(`${process.argv[2]}`, `${process.argv[3]}`, findAvatar);
 
 
